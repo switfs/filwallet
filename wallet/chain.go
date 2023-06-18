@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/go-state-types/cbor"
-	"github.com/filecoin-project/lotus/chain/consensus/filcns"
+	"github.com/filecoin-project/lotus/chain/consensus"
 	"github.com/filecoin-project/lotus/chain/vm"
 	exported7 "github.com/filecoin-project/specs-actors/v7/actors/builtin/exported"
 	"github.com/gin-gonic/gin"
@@ -90,7 +90,7 @@ func (w *Wallet) Encode(c *gin.Context) {
 func EncodeParams(method abi.MethodNum, params string) ([]byte, error) {
 	var paramType cbg.CBORUnmarshaler
 	for _, actor := range exported7.BuiltinActors() {
-		if MethodMetaMap, ok := filcns.NewActorRegistry().Methods[actor.Code()]; ok {
+		if MethodMetaMap, ok := consensus.NewActorRegistry().Methods[actor.Code()]; ok {
 			var m vm.MethodMeta
 			var found bool
 			if m, found = MethodMetaMap[abi.MethodNum(method)]; found {
@@ -118,13 +118,14 @@ func EncodeParams(method abi.MethodNum, params string) ([]byte, error) {
 func DecodeParams(method abi.MethodNum, params []byte) ([]byte, error) {
 	var paramType cbg.CBORUnmarshaler
 	for _, actor := range exported7.BuiltinActors() {
-		if MethodMetaMap, ok := filcns.NewActorRegistry().Methods[actor.Code()]; ok {
+		if MethodMetaMap, ok := consensus.NewActorRegistry().Methods[actor.Code()]; ok {
 			var m vm.MethodMeta
 			var found bool
 			if m, found = MethodMetaMap[abi.MethodNum(method)]; found {
 				paramType = reflect.New(m.Params.Elem()).Interface().(cbg.CBORUnmarshaler)
 			}
 		}
+
 	}
 
 	if paramType == nil {
