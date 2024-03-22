@@ -1,10 +1,10 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/chain"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/buildmessage"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/chain"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/modules/buildmessage"
 )
 
 // Transfer Post

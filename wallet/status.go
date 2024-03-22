@@ -1,9 +1,9 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/build"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/build"
-	"github.com/switfs/filwallet/client"
 )
 
 // Status Get

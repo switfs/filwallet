@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/switfs/filwallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/urfave/cli/v2"
 	"text/tabwriter"
 )

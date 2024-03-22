@@ -2,10 +2,10 @@ package wallet
 
 import (
 	"context"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/client"
 	"time"
 )
 
@@ -35,7 +35,8 @@ func (w *Wallet) Balance(c *gin.Context) {
 	}
 
 	ReturnOk(c, client.BalanceInfo{
-		Address: addrStr,
-		Amount:  types.FIL(amount).String(),
+		Address:    addrStr,
+		FilAddress: addrStr,
+		Amount:     types.FIL(amount).String(),
 	})
 }

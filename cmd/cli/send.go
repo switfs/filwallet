@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/switfs/filwallet/chain"
-	"github.com/switfs/filwallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/chain"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/urfave/cli/v2"
 	"io/ioutil"
 	"os"

@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/buildmessage"
 	"github.com/filecoin-project/lotus/chain/types"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/modules/buildmessage"
 	"github.com/urfave/cli/v2"
 	"os"
 )

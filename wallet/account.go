@@ -2,13 +2,13 @@ package wallet
 
 import (
 	"context"
+	"github.com/OpenFilWallet/OpenFilWallet/account"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/account"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/datastore"
 	"time"
 )
 
@@ -117,6 +117,7 @@ func (w *Wallet) WalletList(c *gin.Context) {
 				data = append(data, client.WalletListInfo{
 					WalletType:    key,
 					WalletAddress: wallet.Address,
+					FilAddress:    wallet.Address,
 					WalletId:      walletId,
 					WalletPath:    wallet.Path,
 					Balance:       types.FIL(amount).String(),

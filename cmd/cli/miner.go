@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/fatih/color"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/lotus/lib/tablewriter"
-	"github.com/switfs/filwallet/client"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/xerrors"
 	"os"

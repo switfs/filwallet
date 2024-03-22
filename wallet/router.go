@@ -1,8 +1,8 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/modules/app"
 	"strings"
 )
 
@@ -37,6 +37,11 @@ func (w *Wallet) NewRouter() *gin.Engine {
 	r.GET("/wallet/list", w.WalletList)
 
 	r.GET("/balance", w.Balance)
+
+	r.POST("/eth/wallet/create", w.EthWalletCreate)
+	r.GET("/eth/wallet/list", w.EthWalletList)
+
+	r.GET("/eth/balance", w.EthBalance)
 
 	r.POST("/transfer", w.Transfer)
 

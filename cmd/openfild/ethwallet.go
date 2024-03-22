@@ -3,33 +3,34 @@ package main
 import (
 	"bufio"
 	"encoding/hex"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/OpenFilWallet/OpenFilWallet/account"
 	"github.com/OpenFilWallet/OpenFilWallet/crypto"
 	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
+	"github.com/ethereum/go-ethereum/common"
+	ethcrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/filecoin-project/go-address"
 	"github.com/urfave/cli/v2"
 	"io/ioutil"
 	"os"
 )
 
-var walletCmd = &cli.Command{
-	Name:  "wallet",
-	Usage: "OpenFilWallet wallet list / import / export",
+var ethWalletCmd = &cli.Command{
+	Name:  "fevm-wallet",
+	Usage: "OpenFilWallet fevm wallet list / import / export",
 	Subcommands: []*cli.Command{
-		walletNew,
-		walletListCmd,
-		walletImportCmd,
-		walletExportCmd,
-		walletDeleteCmd,
+		ethWalletNew,
+		ethWalletListCmd,
+		ethWalletImportCmd,
+		ethWalletExportCmd,
+		ethWalletDeleteCmd,
 	},
 }
 
-var walletNew = &cli.Command{
+var ethWalletNew = &cli.Command{
 	Name:  "new",
-	Usage: "Generate bls and secp256k1 wallets with the same index",
+	Usage: "Generate fevm wallets with the same index",
 	Action: func(cctx *cli.Context) error {
 		db, closer, err := getWalletDB(cctx, false)
 		if err != nil {
@@ -51,23 +52,21 @@ var walletNew = &cli.Command{
 			return err
 		}
 
-		nks, err := account.GeneratePrivateKeyFromMnemonicIndex(db, mnemonic, -1, crypto.GenerateEncryptKey([]byte(masterPassword)))
+		ek, err := account.GenerateEthPrivateKeyFromMnemonicIndex(db, mnemonic, -1, crypto.GenerateEncryptKey([]byte(masterPassword)))
 		if err != nil {
 			return err
 		}
 
 		afmt := app.NewAppFmt(cctx.App)
-		for _, nk := range nks {
-			afmt.Printf("New Wallet: %s  Address: %s \n", nk.KeyInfo.Type, nk.Address.String())
-		}
+		afmt.Printf("New Wallet: %s  Address: %s \n", "fevm-wallet", ek.Address.String())
 
 		return nil
 	},
 }
 
-var walletListCmd = &cli.Command{
+var ethWalletListCmd = &cli.Command{
 	Name:  "list",
-	Usage: "wallet list",
+	Usage: "fevm wallet list",
 	Flags: []cli.Flag{
 		&cli.BoolFlag{
 			Name:  "export",
@@ -94,21 +93,16 @@ var walletListCmd = &cli.Command{
 		afmt := app.NewAppFmt(cctx.App)
 
 		export := cctx.Bool("export")
-		keys, err := account.LoadPrivateKeys(db, crypto.GenerateEncryptKey([]byte(masterPassword)))
+		keys, err := account.LoadEthPrivateKeys(db, crypto.GenerateEncryptKey([]byte(masterPassword)))
 		if err != nil {
 			return err
 		}
 
 		for _, key := range keys {
 			afmt.Println("Address: ", key.Address)
-
 			if export {
-				b, err := json.Marshal(key.KeyInfo)
-				if err != nil {
-					return err
-				}
-
-				afmt.Println("Key:     ", hex.EncodeToString(b))
+				pri := hex.EncodeToString(ethcrypto.FromECDSA(key.PriKey))
+				afmt.Println("Key:     ", pri)
 			}
 		}
 
@@ -116,17 +110,10 @@ var walletListCmd = &cli.Command{
 	},
 }
 
-var walletImportCmd = &cli.Command{
+var ethWalletImportCmd = &cli.Command{
 	Name:      "import",
-	Usage:     "wallet import",
+	Usage:     "fevm wallet import",
 	ArgsUsage: "[<path> (optional, will read from stdin if omitted)]",
-	Flags: []cli.Flag{
-		&cli.StringFlag{
-			Name:  "format",
-			Usage: "specify input format for key",
-			Value: "hex-lotus",
-		},
-	},
 	Action: func(cctx *cli.Context) error {
 		db, closer, err := getWalletDB(cctx, false)
 		if err != nil {
@@ -170,19 +157,19 @@ var walletImportCmd = &cli.Command{
 			inpdata = fdata
 		}
 
-		err = account.ImportPrivateKey(db, string(inpdata), cctx.String("format"), crypto.GenerateEncryptKey([]byte(masterPassword)))
+		err = account.ImportEthPrivateKey(db, string(inpdata), crypto.GenerateEncryptKey([]byte(masterPassword)))
 		if err != nil {
 			return err
 		}
 
-		fmt.Println("private key imported successfully")
+		fmt.Println("fevm private key imported successfully")
 		return nil
 	},
 }
 
-var walletExportCmd = &cli.Command{
+var ethWalletExportCmd = &cli.Command{
 	Name:      "export",
-	Usage:     "wallet export",
+	Usage:     "fevm wallet export",
 	ArgsUsage: "[address]",
 	Action: func(cctx *cli.Context) error {
 		if !cctx.Args().Present() {
@@ -205,28 +192,22 @@ var walletExportCmd = &cli.Command{
 		}
 
 		addrStr := cctx.Args().First()
-		addr, err := address.NewFromString(addrStr)
-		if err != nil {
-			return err
-		}
-		key, err := account.GetPrivateKey(db, addr.String(), crypto.GenerateEncryptKey([]byte(masterPassword)))
+		addr := common.HexToAddress(addrStr)
+		key, err := account.GetEthPrivateKey(db, addr.String(), crypto.GenerateEncryptKey([]byte(masterPassword)))
 
-		b, err := json.Marshal(key.KeyInfo)
-		if err != nil {
-			return err
-		}
+		pri := hex.EncodeToString(ethcrypto.FromECDSA(key.PriKey))
 
 		afmt := app.NewAppFmt(cctx.App)
 		afmt.Println("Address: ", key.Address)
-		afmt.Println("Key:     ", hex.EncodeToString(b))
+		afmt.Println("Key:     ", pri)
 
 		return nil
 	},
 }
 
-var walletDeleteCmd = &cli.Command{
+var ethWalletDeleteCmd = &cli.Command{
 	Name:      "delete",
-	Usage:     "delete private key",
+	Usage:     "delete fevm private key",
 	ArgsUsage: "[address]",
 	Action: func(cctx *cli.Context) error {
 		if !cctx.Args().Present() {
@@ -254,12 +235,12 @@ var walletDeleteCmd = &cli.Command{
 			return err
 		}
 
-		err = db.DeletePrivate(addr.String())
+		err = db.DeleteEthPrivate(addr.String())
 		if err != nil {
 			return err
 		}
 
-		fmt.Println("private key deleted successfully")
+		fmt.Println("fevm private key deleted successfully")
 		return nil
 	},
 }

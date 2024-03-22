@@ -4,10 +4,10 @@ import (
 	"crypto/subtle"
 	"errors"
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	"github.com/OpenFilWallet/OpenFilWallet/lib/hd"
 	logging "github.com/ipfs/go-log/v2"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/datastore"
-	"github.com/switfs/filwallet/lib/hd"
 	"strings"
 )
 

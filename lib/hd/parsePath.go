@@ -135,7 +135,12 @@ func (path *DerivationPath) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// FILPath https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+// BIP-0044 https://github.com/satoshilabs/slips/blob/master/slip-0044.md
+
 func FILPath(index uint64) string {
 	return fmt.Sprintf("m/44'/461'/0'/0/%d", index)
+}
+
+func EthPath(index uint64) string {
+	return fmt.Sprintf("m/44'/60'/0'/0/%d", index)
 }

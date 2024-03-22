@@ -2,9 +2,9 @@ package wallet
 
 import (
 	"context"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	"github.com/OpenFilWallet/OpenFilWallet/repo"
 	"github.com/stretchr/testify/require"
-	"github.com/switfs/filwallet/datastore"
-	"github.com/switfs/filwallet/repo"
 	"testing"
 	"time"
 )

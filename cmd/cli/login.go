@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/modules/app"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
 	"github.com/urfave/cli/v2"
 )
 

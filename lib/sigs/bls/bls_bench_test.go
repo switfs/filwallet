@@ -4,8 +4,8 @@ import (
 	"crypto/rand"
 	"testing"
 
+	"github.com/OpenFilWallet/OpenFilWallet/lib/hd"
 	"github.com/filecoin-project/go-address"
-	"github.com/switfs/filwallet/lib/hd"
 )
 
 func BenchmarkBLSSign(b *testing.B) {

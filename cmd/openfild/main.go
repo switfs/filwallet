@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/build"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
+	"github.com/OpenFilWallet/OpenFilWallet/repo"
 	logging "github.com/ipfs/go-log/v2"
-	"github.com/switfs/filwallet/build"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/datastore"
-	"github.com/switfs/filwallet/modules/app"
-	"github.com/switfs/filwallet/repo"
 	"github.com/urfave/cli/v2"
 	"golang.org/x/xerrors"
 	"os"
@@ -44,6 +44,7 @@ func main() {
 			runCmd,
 			mnemonicCmd,
 			walletCmd,
+			ethWalletCmd,
 			passwordCmd,
 		},
 	}

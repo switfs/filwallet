@@ -4,7 +4,7 @@ all: ffi vue build
 
 unexport GOFLAGS
 
-ldflags=-X=github.com/switfs/filwallet/build.CurrentCommit=+git.$(subst -,.,$(shell git describe --always --match=NeVeRmAtCh 2>/dev/null || git rev-parse --short HEAD 2>/dev/null))
+ldflags=-X=github.com/OpenFilWallet/OpenFilWallet/build.CurrentCommit=+git.$(subst -,.,$(shell git describe --always --match=NeVeRmAtCh 2>/dev/null || git rev-parse --short HEAD 2>/dev/null))
 ifneq ($(strip $(LDFLAGS)),)
  ldflags+=-extldflags=$(LDFLAGS)
 endif

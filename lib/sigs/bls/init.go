@@ -8,7 +8,7 @@ import (
 
 	ffi "github.com/filecoin-project/filecoin-ffi"
 
-	"github.com/switfs/filwallet/lib/sigs"
+	"github.com/OpenFilWallet/OpenFilWallet/lib/sigs"
 )
 
 const DST = string("BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_NUL_")

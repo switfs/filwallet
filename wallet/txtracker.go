@@ -5,14 +5,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	multisig11 "github.com/filecoin-project/go-state-types/builtin/v11/multisig"
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	multisig12 "github.com/filecoin-project/go-state-types/builtin/v12/multisig"
 	"github.com/filecoin-project/lotus/api"
 	"github.com/filecoin-project/lotus/chain/stmgr"
 	"github.com/filecoin-project/lotus/chain/types"
-	init2 "github.com/filecoin-project/specs-actors/v2/actors/builtin/init"
+	specsinit8 "github.com/filecoin-project/specs-actors/v8/actors/builtin/init"
 	"github.com/ipfs/go-cid"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/datastore"
 	"time"
 )
 
@@ -105,7 +105,7 @@ func (tt *txTracker) monitor(msg *datastore.History) {
 			}
 
 			if msg.ParamName == "ConstructorParams" { // create msig tx
-				var execreturn init2.ExecReturn
+				var execreturn specsinit8.ExecReturn
 				if err := execreturn.UnmarshalCBOR(bytes.NewReader(searchRes.Receipt.Return)); err != nil {
 					log.Warnw("txTracker: ConstructorParams: UnmarshalCBOR", "cid", msg.TxCid)
 					recordFailedTx(err)
@@ -113,7 +113,7 @@ func (tt *txTracker) monitor(msg *datastore.History) {
 				}
 
 				msig := execreturn.RobustAddress.String()
-				var p multisig11.ConstructorParams
+				var p multisig12.ConstructorParams
 				err = json.Unmarshal([]byte(msg.Params), &p)
 				if err != nil {
 					log.Warnw("txTracker: Unmarshal Msig ConstructorParams fail", "err", err.Error())

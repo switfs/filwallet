@@ -4,17 +4,17 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	"github.com/OpenFilWallet/OpenFilWallet/lib/hd"
+	"github.com/OpenFilWallet/OpenFilWallet/lib/sigs"
+	_ "github.com/OpenFilWallet/OpenFilWallet/lib/sigs/bls"
+	_ "github.com/OpenFilWallet/OpenFilWallet/lib/sigs/secp"
 	filcrypto "github.com/filecoin-project/go-state-types/crypto"
 	"github.com/filecoin-project/lotus/chain/types"
 	"github.com/filecoin-project/lotus/chain/wallet/key"
 	_ "github.com/filecoin-project/lotus/lib/sigs/bls"
 	_ "github.com/filecoin-project/lotus/lib/sigs/secp"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/datastore"
-	"github.com/switfs/filwallet/lib/hd"
-	"github.com/switfs/filwallet/lib/sigs"
-	_ "github.com/switfs/filwallet/lib/sigs/bls"
-	_ "github.com/switfs/filwallet/lib/sigs/secp"
 
 	"golang.org/x/xerrors"
 	"strings"
@@ -154,6 +154,7 @@ func UpdatePrivateKey(walletDB datastore.WalletDB, oldPasswordKey, newPasswordKe
 			PriKey:  encryptedPrivateKey,
 			Address: nk.Address.String(),
 			KeyHash: crypto.Hash256(encryptedPrivateKey),
+			Path:    pri.Path,
 		})
 
 		if err != nil {

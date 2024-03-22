@@ -1,11 +1,11 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/account"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/datastore"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/messagesigner"
 	logging "github.com/ipfs/go-log/v2"
-	"github.com/switfs/filwallet/account"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/datastore"
-	"github.com/switfs/filwallet/modules/messagesigner"
 	"sync"
 )
 
@@ -59,6 +59,17 @@ func NewWallet(offline bool, masterPassword string, db datastore.WalletDB, close
 	}
 
 	err = w.signer.RegisterSigner(keys...)
+	if err != nil {
+		return nil, err
+	}
+
+	ethKeys, err := account.LoadEthPrivateKeys(db, crypto.GenerateEncryptKey([]byte(masterPassword)))
+	if err != nil {
+		log.Warnw("NewWallet: LoadEthPrivateKeys", "err", err)
+		return nil, err
+	}
+
+	err = w.signer.RegisterEthSigner(ethKeys...)
 	if err != nil {
 		return nil, err
 	}

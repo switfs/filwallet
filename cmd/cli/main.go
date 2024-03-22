@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/build"
+	"github.com/OpenFilWallet/OpenFilWallet/repo"
 	logging "github.com/ipfs/go-log/v2"
-	"github.com/switfs/filwallet/build"
-	"github.com/switfs/filwallet/repo"
 	"github.com/urfave/cli/v2"
 	"os"
 )
@@ -41,6 +41,7 @@ func main() {
 			sendCmd,
 			signCmd,
 			walletCmd,
+			fevmWalletCmd,
 			transferCmd,
 			minerCmd,
 			multisigCmd,

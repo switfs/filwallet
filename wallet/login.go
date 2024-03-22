@@ -1,10 +1,10 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/client"
+	"github.com/OpenFilWallet/OpenFilWallet/crypto"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/client"
-	"github.com/switfs/filwallet/crypto"
-	"github.com/switfs/filwallet/modules/app"
 	"time"
 )
 

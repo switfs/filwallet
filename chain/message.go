@@ -7,14 +7,13 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/abi"
 	actorstypes "github.com/filecoin-project/go-state-types/actors"
-	multisig11 "github.com/filecoin-project/go-state-types/builtin/v11/multisig"
-	init8 "github.com/filecoin-project/go-state-types/builtin/v9/init"
-	"github.com/filecoin-project/go-state-types/builtin/v9/miner"
+	init12 "github.com/filecoin-project/go-state-types/builtin/v12/init"
+	miner12 "github.com/filecoin-project/go-state-types/builtin/v12/miner"
+	multisig12 "github.com/filecoin-project/go-state-types/builtin/v12/multisig"
 	"github.com/filecoin-project/go-state-types/manifest"
 	"github.com/filecoin-project/lotus/chain/actors"
 	"github.com/filecoin-project/lotus/chain/types"
-	miner8 "github.com/filecoin-project/specs-actors/v8/actors/builtin/miner"
-	power8 "github.com/filecoin-project/specs-actors/v8/actors/builtin/power"
+	specspower8 "github.com/filecoin-project/specs-actors/v8/actors/builtin/power"
 	cbg "github.com/whyrusleeping/cbor-gen"
 	"golang.org/x/xerrors"
 )
@@ -111,14 +110,14 @@ func DecodeParams(params ParamsInfo) ([]byte, error) {
 	case "": // Send & ConfirmUpdateWorkerKey
 		return []byte{}, nil
 	case "CreateMinerParams":
-		var p power8.CreateMinerParams
+		var p specspower8.CreateMinerParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "WithdrawBalanceParams":
-		var p miner8.WithdrawBalanceParams
+		var p miner12.WithdrawBalanceParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
@@ -131,14 +130,14 @@ func DecodeParams(params ParamsInfo) ([]byte, error) {
 		}
 		cbor = &addr
 	case "ChangeWorkerAddressParams":
-		var p miner8.ChangeWorkerAddressParams
+		var p miner12.ChangeWorkerAddressParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "ConstructorParams":
-		var p multisig11.ConstructorParams
+		var p multisig12.ConstructorParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
@@ -154,63 +153,63 @@ func DecodeParams(params ParamsInfo) ([]byte, error) {
 			return nil, xerrors.Errorf("failed to get multisig code ID")
 		}
 
-		ep := &init8.ExecParams{
+		ep := &init12.ExecParams{
 			CodeCID:           code,
 			ConstructorParams: enc,
 		}
 
 		cbor = ep
 	case "ProposeParams":
-		var p multisig11.ProposeParams
+		var p multisig12.ProposeParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "TxnIDParams":
-		var p multisig11.TxnIDParams
+		var p multisig12.TxnIDParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "AddSignerParams":
-		var p multisig11.AddSignerParams
+		var p multisig12.AddSignerParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "RemoveSignerParams":
-		var p multisig11.RemoveSignerParams
+		var p multisig12.RemoveSignerParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "SwapSignerParams":
-		var p multisig11.SwapSignerParams
+		var p multisig12.SwapSignerParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "ChangeNumApprovalsThresholdParams":
-		var p multisig11.ChangeNumApprovalsThresholdParams
+		var p multisig12.ChangeNumApprovalsThresholdParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "LockBalanceParams":
-		var p multisig11.LockBalanceParams
+		var p multisig12.LockBalanceParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
 		}
 		cbor = &p
 	case "ChangeBeneficiaryParams":
-		var p miner.ChangeBeneficiaryParams
+		var p miner12.ChangeBeneficiaryParams
 		err = json.Unmarshal([]byte(params.Params), &p)
 		if err != nil {
 			return nil, err
@@ -240,12 +239,12 @@ func EncodeParams(params interface{}) (*ParamsInfo, error) {
 			Name:   "",
 			Params: "",
 		}, nil
-	case *power8.CreateMinerParams: // CreateMiner
+	case *specspower8.CreateMinerParams: // CreateMiner
 		return &ParamsInfo{
 			Name:   "CreateMinerParams",
 			Params: string(b),
 		}, nil
-	case *miner8.WithdrawBalanceParams: // WithdrawBalance
+	case *miner12.WithdrawBalanceParams: // WithdrawBalance
 		return &ParamsInfo{
 			Name:   "WithdrawBalanceParams",
 			Params: string(b),
@@ -255,52 +254,52 @@ func EncodeParams(params interface{}) (*ParamsInfo, error) {
 			Name:   "Address",
 			Params: params.(*address.Address).String(),
 		}, nil
-	case *miner8.ChangeWorkerAddressParams: // ChangeWorkerAddress, and ConfirmUpdateWorkerKey has no params
+	case *miner12.ChangeWorkerAddressParams: // ChangeWorkerAddress, and ConfirmUpdateWorkerKey has no params
 		return &ParamsInfo{
 			Name:   "ChangeWorkerAddressParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.ConstructorParams: // Msig Constructor
+	case *multisig12.ConstructorParams: // Msig Constructor
 		return &ParamsInfo{
 			Name:   "ConstructorParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.ProposeParams: // Propose
+	case *multisig12.ProposeParams: // Propose
 		return &ParamsInfo{
 			Name:   "ProposeParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.TxnIDParams: // Cancel & Approve
+	case *multisig12.TxnIDParams: // Cancel & Approve
 		return &ParamsInfo{
 			Name:   "TxnIDParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.AddSignerParams: // AddSigner
+	case *multisig12.AddSignerParams: // AddSigner
 		return &ParamsInfo{
 			Name:   "AddSignerParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.RemoveSignerParams: // RemoveSigner
+	case *multisig12.RemoveSignerParams: // RemoveSigner
 		return &ParamsInfo{
 			Name:   "RemoveSignerParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.SwapSignerParams: // SwapSigner
+	case *multisig12.SwapSignerParams: // SwapSigner
 		return &ParamsInfo{
 			Name:   "SwapSignerParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.ChangeNumApprovalsThresholdParams: // ChangeNumApprovalsThreshold
+	case *multisig12.ChangeNumApprovalsThresholdParams: // ChangeNumApprovalsThreshold
 		return &ParamsInfo{
 			Name:   "ChangeNumApprovalsThresholdParams",
 			Params: string(b),
 		}, nil
-	case *multisig11.LockBalanceParams: // LockBalance
+	case *multisig12.LockBalanceParams: // LockBalance
 		return &ParamsInfo{
 			Name:   "LockBalanceParams",
 			Params: string(b),
 		}, nil
-	case *miner.ChangeBeneficiaryParams:
+	case *miner12.ChangeBeneficiaryParams:
 		return &ParamsInfo{
 			Name:   "ChangeBeneficiaryParams",
 			Params: string(b),

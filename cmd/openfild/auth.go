@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
 	"github.com/filecoin-project/go-jsonrpc/auth"
 	"github.com/filecoin-project/lotus/api"
-	"github.com/switfs/filwallet/modules/app"
 	"github.com/urfave/cli/v2"
 )
 

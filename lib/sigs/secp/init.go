@@ -2,12 +2,12 @@ package secp
 
 import (
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/lib/sigs"
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-crypto"
 	crypto2 "github.com/filecoin-project/go-state-types/crypto"
 	"github.com/minio/blake2b-simd"
-	"github.com/switfs/filwallet/lib/sigs"
 )
 
 type secpSigner struct{}

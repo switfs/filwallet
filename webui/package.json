@@ -33,7 +33,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/switfs/filwallet.git"
+    "url": "https://github.com/OpenFilWallet/OpenFilWallet.git"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",

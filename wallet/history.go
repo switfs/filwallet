@@ -1,9 +1,9 @@
 package wallet
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/client"
 	"github.com/filecoin-project/go-address"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/client"
 )
 
 // TxHistory Get

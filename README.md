@@ -40,4 +40,4 @@ OpenFilWallet is a universally open project and welcomes contributions of all ki
 
 ## License
 
-The OpenFilWallet is licensed under the [GPL-3.0](https://github.com/switfs/filwallet/blob/main/LICENSE)
+The OpenFilWallet is licensed under the [GPL-3.0](https://github.com/OpenFilWallet/OpenFilWallet/blob/main/LICENSE)

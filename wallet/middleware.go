@@ -3,8 +3,8 @@ package wallet
 import (
 	"bytes"
 	"fmt"
+	"github.com/OpenFilWallet/OpenFilWallet/modules/app"
 	"github.com/gin-gonic/gin"
-	"github.com/switfs/filwallet/modules/app"
 	"io/ioutil"
 	"net/http"
 	"strings"

@@ -9,17 +9,16 @@ import (
 )
 
 // SignedMessage : Signature use CBOR encoding and conforms to lotus spec
+//   sign := crypto.Signature{
+//	   Type: crypto.SigTypeSecp256k1,
+//	   Data: []byte{1, 2, 3, 4},
+//   }
 //
-//	  sign := crypto.Signature{
-//		   Type: crypto.SigTypeSecp256k1,
-//		   Data: []byte{1, 2, 3, 4},
-//	  }
-//
-//	  var buf bytes.Buffer
-//	  sign.MarshalCBOR(&buf)
-//	  signedMsg := SignedMessage{
-//		   Signature: buf.String(),
-//	  }
+//   var buf bytes.Buffer
+//   sign.MarshalCBOR(&buf)
+//   signedMsg := SignedMessage{
+//	   Signature: buf.String(),
+//   }
 type SignedMessage struct {
 	Message   Message `json:"message"`
 	Signature string  `json:"signature"`

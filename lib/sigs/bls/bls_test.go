@@ -1,8 +1,8 @@
 package bls_test
 
 import (
+	"github.com/OpenFilWallet/OpenFilWallet/lib/hd"
 	"github.com/filecoin-project/lotus/chain/wallet/key"
-	"github.com/switfs/filwallet/lib/hd"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -10,11 +10,11 @@ import (
 	"github.com/filecoin-project/go-address"
 	"github.com/filecoin-project/go-state-types/crypto"
 
+	"github.com/OpenFilWallet/OpenFilWallet/lib/sigs"
+	_ "github.com/OpenFilWallet/OpenFilWallet/lib/sigs/bls"
 	"github.com/filecoin-project/lotus/chain/types"
 	_ "github.com/filecoin-project/lotus/lib/sigs/bls"
 	_ "github.com/filecoin-project/lotus/lib/sigs/secp"
-	"github.com/switfs/filwallet/lib/sigs"
-	_ "github.com/switfs/filwallet/lib/sigs/bls"
 )
 
 func TestRoundtrip(t *testing.T) {
